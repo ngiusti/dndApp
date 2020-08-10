@@ -1,13 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
+import { View, Text, StyleSheet} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-export default function App() {
+import HomeScreen from './src/pages/HomeScreen'
+import SpellScreen from './src/pages/spells/SpellScreen'
+import Spell from './src/pages/spells/Spell'
+
+
+const Stack = createStackNavigator();
+
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Spells" component={SpellScreen} />
+        <Stack.Screen name="Spell" component={Spell} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -19,3 +30,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default App;
+
+
