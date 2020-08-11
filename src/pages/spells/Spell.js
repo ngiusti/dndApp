@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { Text, View, ScrollView, StyleSheet } from 'react-native'
 import axios from 'axios';
 
+import Loader from '../../components/loader/Loader'
+
+
 export default class Spell extends Component {
     
     state = {
@@ -24,8 +27,9 @@ export default class Spell extends Component {
 
 
     render() {
-        console.log(this.state.spell);
-        let classes = []        
+        let classes = (
+            <Loader/>
+        )       
         let components = []        
         let desc = []        
         if(this.state.ready) {

@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
-import { Text, View, ScrollView, StyleSheet, TouchableHighlight } from 'react-native'
+import { Text, View, ScrollView, StyleSheet, TouchableHighlight} from 'react-native'
 import axios from 'axios';
+
+import Loader from '../../components/loader/Loader'
+
 
 
 class SpellScreen extends Component {
@@ -21,7 +24,7 @@ class SpellScreen extends Component {
         });
     }
 
-    Hello(spellURI) {
+    spellUrl(spellURI) {
         this.props.navigation.navigate('Spell', {
             spell: spellURI,
         });
@@ -30,10 +33,12 @@ class SpellScreen extends Component {
 
 
   render() {  
-    let spells = []
+    let spells = (
+        <Loader/>
+    )
     if(this.state.ready) {
         spells = this.state.spells.map((spell, index) =>
-            <TouchableHighlight key={index} onPress={() => this.Hello(spell.url)} underlayColor="white">
+            <TouchableHighlight key={index} onPress={() => this.spellUrl(spell.url)} underlayColor="white">
                 <View style={styles.ItemWrap}>
                     <Text style={styles.Item}>{spell.name}</Text>
                 </View>
