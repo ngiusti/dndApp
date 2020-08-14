@@ -87,13 +87,12 @@ class ModalCompoent extends Component {
 
   changeProperty = () => {
     const { modalVisible } = this.state;
-
     if(this.props.dataName == "classes") {
-      this.props.changeClass(this.state.data.name)
+      this.props.changeClass(this.props.charId, this.state.data.name)
       this.setModalVisible(!modalVisible);
     }
     if(this.props.dataName == "races") {
-      this.props.changeRace(this.state.data.name)
+      this.props.changeRace(this.props.charId, this.state.data.name)
       this.setModalVisible(!modalVisible);
     }
   }
@@ -101,7 +100,6 @@ class ModalCompoent extends Component {
 
 
   render() {
-
     const { modalVisible } = this.state;
     return (
       <View style={styles.centeredView}>
@@ -189,6 +187,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    characters: state.character.characters,
     name: state.character.name,
     class: state.character.class,
     race: state.character.race,
@@ -198,8 +197,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeRace: (race) => dispatch({ type: 'CHANGE_RACE', value: race }),
-    changeClass: (charClass) => dispatch({ type: 'CHANGE_CLASS', value: charClass }),
+    changeRace: (charId, race) => dispatch({ type: 'CHANGE_RACE',id: charId, value: race }),
+    changeClass: (charId, charClass) => dispatch({ type: 'CHANGE_CLASS',id: charId, value: charClass }),
   }
 }
 

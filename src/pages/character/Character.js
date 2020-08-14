@@ -8,7 +8,7 @@ import CharacterFrame from './CharacterFrame';
 class CharacterScreen extends Component {
 
   componentDidUpdate(){
-
+    console.log('hello')
   }
 
   addCharacter = () => {

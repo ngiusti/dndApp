@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
     return{
-        changeName: (charId, name) => dispatch({ type: 'CHANGE_NAME', id: charId, value: name }),
+        changeName: (charId, name) => dispatch({ type: 'CHANGE_NAME', id: charId, value: name}),
     }
 }
 
