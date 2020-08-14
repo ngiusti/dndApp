@@ -3,6 +3,9 @@ import { Text, View, ScrollView, StyleSheet} from 'react-native'
 import axios from 'axios';
 import Loader from '../../components/loader/Loader';
 import ModalComponent from '../../components/modal/Modal'
+import { connect } from 'react-redux';
+
+import CharacterFrame from './CharacterFrame'
 
 class dataComponent extends Component {
 
@@ -20,7 +23,6 @@ class dataComponent extends Component {
         axios.get(`https://www.dnd5eapi.co/api/${param}`)
         .then(response => {
             this.setState({data: response.data.results})
-            console.log(response.data)
             this.setState({ready: true})
         })
         .catch(error => {
@@ -28,24 +30,27 @@ class dataComponent extends Component {
         }); 
     }
 
-  render() {  
-    let data = (
-        <Loader/>
-    )
+    render() {  
+        let data = (
+            <Loader/>
+        )
 
     if(this.state.ready) {
         data = this.state.data.map((data, index) => 
             <View key={index} style={styles.character}>
                 <Text style={styles.name}>{data.name}</Text>
-                <ModalComponent dataName={ this.state.dataType } dataUrl={data.url}/>
+                <ModalComponent dataName={ this.state.dataType } charId={this.props.route.params.itemId} dataUrl={data.url}/>
             </View>
         )
     }
 
     return (
-        <ScrollView style={styles.scrollView}>
-            {data}
-        </ScrollView>
+        <View style={{flex: 1, justifyContent: 'center' }}>
+            <ScrollView style={styles.scrollView}>
+                {data}
+            </ScrollView>
+            <CharacterFrame/>
+        </View>
     );
   }
 }
@@ -67,4 +72,13 @@ const styles = StyleSheet.create({
     }
 });
 
-export default dataComponent
+const mapStateToProps = (state) => {
+    return {
+      name: state.character.name,
+      class: state.character.class,
+      race: state.character.race,
+    }
+}
+
+
+export default connect(mapStateToProps)(dataComponent);

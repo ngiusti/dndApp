@@ -9,6 +9,7 @@ import {
   ScrollView
 } from "react-native";
 import axios from 'axios';
+import { connect } from 'react-redux'
 
 
 class ModalCompoent extends Component {
@@ -38,11 +39,11 @@ class ModalCompoent extends Component {
       let savingThrows = ""
       if(this.state.ready){
         savingThrows = this.state.data.saving_throws.map((data, index) => 
-        <Text key={index}>{data.name}</Text>
-      )
-    }
+          <Text key={index}>{data.name}</Text>
+        )
+      }
       return (
-        <ScrollView>
+        <ScrollView style={styles.modalContent}>
           <Text>{this.state.data.name}</Text>
           <Text>{this.state.data.hit_die}</Text>
           {savingThrows}
@@ -51,16 +52,52 @@ class ModalCompoent extends Component {
     }
 
     if(this.props.dataName == "races") {
+      let abilityBonus = ""
+      let languages = ""
+      let traits = ""
+      let startingProf = ""
+      if(this.state.ready){
+        abilityBonus = this.state.data.ability_bonuses.map((data, index) => 
+          <Text key={index}>{data.name} - {data.bonus}</Text>
+        )
+        languages = this.state.data.languages.map((data, index) => 
+          <Text key={index}>{data.name}</Text>
+        )
+        traits = this.state.data.traits.map((data, index) => 
+          <Text key={index}>{data.name}</Text>
+        )
+        startingProf = this.state.data.starting_proficiencies.map((data, index) => 
+          <Text key={index}>{data.name}</Text>
+        )
+      }
       return (
-        <ScrollView>
+        <ScrollView style={styles.modalContent}>
           <Text>{this.state.data.name}</Text>
           <Text>{this.state.data.size}</Text>
-          <Text>{this.state.data.speed}</Text>
+          <Text>{this.state.data.speed} feet</Text>
           <Text>{this.state.data.age}</Text>
+          {abilityBonus}
+          {languages}
+          {traits}
+          {startingProf}
         </ScrollView>
       )
     }
   }
+
+  changeProperty = () => {
+    const { modalVisible } = this.state;
+
+    if(this.props.dataName == "classes") {
+      this.props.changeClass(this.state.data.name)
+      this.setModalVisible(!modalVisible);
+    }
+    if(this.props.dataName == "races") {
+      this.props.changeRace(this.state.data.name)
+      this.setModalVisible(!modalVisible);
+    }
+  }
+
 
 
   render() {
@@ -80,7 +117,9 @@ class ModalCompoent extends Component {
             <View style={styles.modalView}>
               {this.dataType()}
               <View style={styles.buttonWrap}>
-                <TouchableHighlight style={{ ...styles.openButton }}>
+                <TouchableHighlight style={{ ...styles.openButton }}
+                  onPress={() => this.changeProperty()}
+                >
                   <Text style={styles.textStyle}>Select</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
@@ -121,6 +160,11 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
+    width: '80%',
+  },
+  modalContent: {
+    textAlign: 'center',
+    margin: 10,
   },
   openButton: {
     backgroundColor: "black",
@@ -143,4 +187,20 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ModalCompoent;
+const mapStateToProps = (state) => {
+  return {
+    name: state.character.name,
+    class: state.character.class,
+    race: state.character.race,
+  }
+}
+
+
+const mapDispatchToProps = dispatch => {
+  return {
+    changeRace: (race) => dispatch({ type: 'CHANGE_RACE', value: race }),
+    changeClass: (charClass) => dispatch({ type: 'CHANGE_CLASS', value: charClass }),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModalCompoent);

@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+import { Provider } from 'react-redux';
+import { createStore, combineReducers } from 'redux';
+
 
 
 import HomeScreen from './src/pages/HomeScreen'
@@ -11,10 +14,19 @@ import Spell from './src/pages/spells/Spell'
 import CharacterScreen from './src/pages/character/Character'
 import NewCharacterScreen from './src/pages/character/NewCharacter'
 import DataList from './src/pages/character/DataList'
+import characterReducer from './src/store/reducers/character'
 
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+
+const rootReducer = combineReducers({
+  character: characterReducer,
+})
+
+const store = createStore(rootReducer)
+
 
 
 function SpellStack() {
@@ -25,6 +37,7 @@ function SpellStack() {
     </Stack.Navigator>
   );
 }
+
 
 function CharacterStack() {
   return (
@@ -38,24 +51,17 @@ function CharacterStack() {
 
 function App() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Spells" component={SpellStack} />
-        <Tab.Screen name="Character" component={CharacterStack} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="Spells" component={SpellStack} />
+          <Tab.Screen name="Character" component={CharacterStack} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default App;
 

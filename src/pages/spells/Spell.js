@@ -51,7 +51,7 @@ export default class Spell extends Component {
         }
 
         return (
-            <View>
+            <ScrollView>
                 <Text>{this.state.spell.name}</Text>
                 <Text>{this.state.spell.duration}</Text>
                 <Text>{this.state.spell.range}</Text>
@@ -60,7 +60,7 @@ export default class Spell extends Component {
                 {classes}
                 {components}
                 {desc}
-            </View>
+            </ScrollView>
         )
     }
 }
