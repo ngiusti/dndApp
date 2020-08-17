@@ -4,62 +4,62 @@ import { connect } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faHandSparkles, faHatWizard, faGuitar, faBullseye, faShieldAlt, faHands, faMeteor, faFistRaised, faAngry, faGavel, faPaw, faUserNinja} from '@fortawesome/free-solid-svg-icons'
-import { lightgray } from 'color-name';
 
 
 class CharacterFrame extends Component {
 
   render() {  
     let classImage = null
+    let charRoute = this.props.characters[this.props.charId]
 
-    if (this.props.class == "Barbarian"){
+    if ( charRoute.class == "Barbarian"){
         classImage = <FontAwesomeIcon style={styles.Icon} size={ 40 } icon={ faAngry } />
     }
-    else if(this.props.class == "Bard"){
+    else if(charRoute.class == "Bard"){
         classImage = <FontAwesomeIcon style={styles.Icon} size={ 40 } icon={ faGuitar } />
     }
-    else if(this.props.class == "Cleric"){
+    else if(charRoute.class == "Cleric"){
         classImage = <FontAwesomeIcon style={styles.Icon} size={ 40 } icon={ faHands } />
     }
-    else if(this.props.class == "Druid"){
+    else if(charRoute.class == "Druid"){
         classImage = <FontAwesomeIcon style={styles.Icon} size={ 40 } icon={ faPaw } />
     }
-    else if(this.props.class == "Fighter"){
+    else if(charRoute.class == "Fighter"){
         classImage = <FontAwesomeIcon style={styles.Icon} size={ 40 } icon={ faGavel } />
     }
-    else if(this.props.class == "Monk"){
+    else if(charRoute.class == "Monk"){
         classImage = <FontAwesomeIcon style={styles.Icon} size={ 40 } icon={ faFistRaised } />
     }
-    else if(this.props.class == "Paladin"){
+    else if(charRoute.class == "Paladin"){
         classImage = <FontAwesomeIcon style={styles.Icon} size={ 40 } icon={ faShieldAlt } />
     }
-    else if(this.props.class == "Ranger"){
+    else if(charRoute.class == "Ranger"){
         classImage = <FontAwesomeIcon style={styles.Icon} size={ 40 } icon={ faBullseye } />
     }
-    else if(this.props.class == "Rogue"){
+    else if(charRoute.class == "Rogue"){
         classImage = <FontAwesomeIcon style={styles.Icon} size={ 40 } icon={ faUserNinja } />
     }
-    else if(this.props.class == "Sorcerer"){
+    else if(charRoute.class == "Sorcerer"){
         classImage = <FontAwesomeIcon style={styles.Icon} size={ 40 } icon={ faHandSparkles } />
     }
-    else if(this.props.class == "Warlock"){
+    else if(charRoute.class == "Warlock"){
         classImage = <FontAwesomeIcon style={styles.Icon} size={ 40 } icon={ faMeteor } />
     }
-    else if(this.props.class == "Wizard"){
+    else if(charRoute.class == "Wizard"){
         classImage = <FontAwesomeIcon style={styles.Icon} size={ 40 } icon={ faHatWizard } />
     }
 
     return (
         <View style={styles.CharacterWrap}>
             <View style={styles.CharacterInfoWrap}>
-                <Text style={styles.CharacterInfo}>{this.props.name}</Text>
+                <Text style={styles.CharacterInfo}>{charRoute.name}</Text>
             </View>
             <View style={styles.CharacterInfoWrap}>
                 {classImage}
-                <Text style={styles.CharacterInfo}>{this.props.class}</Text>
+                <Text style={styles.CharacterInfo}>{charRoute.class}</Text>
             </View>
             <View style={styles.CharacterInfoWrap}>
-                <Text style={styles.CharacterInfo}>{this.props.race}</Text>
+                <Text style={styles.CharacterInfo}>{charRoute.race}</Text>
             </View>
         </View>
     );
@@ -68,9 +68,7 @@ class CharacterFrame extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    name: state.character.name,
-    class: state.character.class,
-    race: state.character.race,
+    characters: state.character.characters
   }
 }
 

@@ -13,7 +13,9 @@ import SpellScreen from './src/pages/spells/SpellScreen'
 import Spell from './src/pages/spells/Spell'
 import CharacterScreen from './src/pages/character/Character'
 import NewCharacterScreen from './src/pages/character/NewCharacter'
+import PlayerScreen from './src/pages/Player/Player'
 import DataList from './src/pages/character/DataList'
+
 import characterReducer from './src/store/reducers/character'
 
 
@@ -45,6 +47,7 @@ function CharacterStack() {
       <Stack.Screen name="Character" component={CharacterScreen} />
       <Stack.Screen name="DataList" component={DataList} />
       <Stack.Screen name="New Character" component={NewCharacterScreen} />
+      <Stack.Screen name="Player" component={PlayerScreen} options={({ route }) => ({ title: route.params.name })}/>
     </Stack.Navigator>  
   );
 }

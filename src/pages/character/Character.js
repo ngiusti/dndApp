@@ -2,13 +2,15 @@ import React, { Component } from 'react'
 import { Text, View , Button, ScrollView, StyleSheet, TouchableOpacity} from 'react-native'
 import { connect } from 'react-redux';
 
-import CharacterFrame from './CharacterFrame';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faUserEdit } from '@fortawesome/free-solid-svg-icons'
+
 
 
 class CharacterScreen extends Component {
 
   componentDidUpdate(){
-    console.log('hello')
+
   }
 
   addCharacter = () => {
@@ -19,15 +21,28 @@ class CharacterScreen extends Component {
     this.props.navigation.navigate('New Character', {itemId: index})
   }
 
+  playerScreen = (index) => {
+    this.props.navigation.navigate('Player', {itemId: index, name: this.props.characters[index].name.toUpperCase()})
+  }
+
   render() {  
     let characterList = null
+
+
     if  (this.props.characters){
+
+
       characterList = this.props.characters.map((character, index) => 
-        <TouchableOpacity  key={index} onPress={() => this.editCharacter(index)}>
+        <TouchableOpacity  key={index} onPress={() => this.playerScreen(index)}>
           <View style={styles.CharacterWrap}>
-            <Text>{character.name}</Text>
-            <Text>{character.class}</Text>
-            <Text>{character.race}</Text>
+            <View>
+              <Text>{character.name}</Text>
+              <Text>{character.class}</Text>
+              <Text>{character.race}</Text>
+            </View>
+            <TouchableOpacity style={styles.editCharacterButton} onPress={() => this.editCharacter(index)}>
+              <FontAwesomeIcon style={styles.Icon} size={ 40 } icon={ faUserEdit } />
+            </TouchableOpacity>
           </View>
         </TouchableOpacity>
       )
@@ -44,7 +59,6 @@ class CharacterScreen extends Component {
           <ScrollView style={{ flex: 1 }}>
             {characterList}
           </ScrollView>
-          <CharacterFrame/>
         </View>
     );
   }
@@ -53,9 +67,6 @@ class CharacterScreen extends Component {
 const mapStateToProps = (state) => {
   return {
     characters: state.character.characters,
-    name: state.character.name,
-    class: state.character.class,
-    race: state.character.race,
   }
 }
 
@@ -69,8 +80,19 @@ const mapDispatchToProps = dispatch => {
 const styles = StyleSheet.create({
   CharacterWrap: {
     backgroundColor: 'darkgray',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignContent: 'center',
+    alignItems: 'center',
     margin: 10,
     padding: 20,
+  },
+  editCharacterButton: {
+    padding: 10,
+    borderWidth: 2,
+    borderColor: 'black',
+    backgroundColor: 'white',
+    borderRadius: 10,
   },
   Title: {
     justifyContent: 'center',

@@ -17,12 +17,15 @@ class NewCharacterScreen extends Component {
 
 
     checkState = () => {
-        this.props.changeName(this.props.route.params.itemId, this.state.text)
+        if(this.state.text.length > 0){
+            this.props.changeName(this.props.route.params.itemId, this.state.text)
+        }else {
+            console.log('name too short')
+        }
     }
 
 
   render() {  
-
     return (
         <View style={{flex: 1, justifyContent: 'center' }}>
             <ScrollView style={styles.scrollView}>
@@ -34,10 +37,10 @@ class NewCharacterScreen extends Component {
                     defaultValue={this.state.text}
                 />
                 <Button title={"submit"} onPress={() => this.checkState()}/>
-                <Button title={'Races'} onPress={() => this.props.navigation.navigate('DataList', {param: 'races', itemId: this.props.route.params.itemId})}/>
                 <Button title={'Classes'} onPress={() => this.props.navigation.navigate('DataList', {param: 'classes', itemId: this.props.route.params.itemId})}/>
+                <Button title={'Races'} onPress={() => this.props.navigation.navigate('DataList', {param: 'races', itemId: this.props.route.params.itemId})}/>
             </ScrollView>
-            <CharacterFrame/>
+            <CharacterFrame charId={this.props.route.params.itemId}/>
         </View>
     );
   }

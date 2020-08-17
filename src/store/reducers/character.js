@@ -2,11 +2,6 @@ import { ADD_CHARACTER, REMOVE_CHARACTER, CHANGE_NAME, CHANGE_RACE, CHANGE_CLASS
 
 const intialState = ({
     characters: [
-        {
-            name: "Guy",
-            class: "Fighter",
-            race: "Human",
-        },
     ],
 })
 
@@ -21,14 +16,26 @@ function updateValue(array, action, type) {
                 name: action.value
             }
           } else if(type == 'class'){
+            let savingThrows = []
+            action.value.saving_throws.map((savingThrow) =>
+                savingThrows.push(savingThrow.name),
+            )
             return{
                 ...character,
-                class: action.value
+                class: action.value.name,
+                hitDice: action.value.hit_die,
+                savingThrows: savingThrows
             }
           } else if(type == 'race'){
+            let abilityBonuses = []
+            action.value.ability_bonuses.map((abilityBonus) =>
+                abilityBonuses.push(abilityBonus.name + " " + abilityBonus.bonus),
+            )
+
             return{
                 ...character,
-                race: action.value
+                race: action.value.name,
+                bonuses: abilityBonuses
             }
           }
       }

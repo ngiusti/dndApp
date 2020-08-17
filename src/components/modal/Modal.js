@@ -88,11 +88,11 @@ class ModalCompoent extends Component {
   changeProperty = () => {
     const { modalVisible } = this.state;
     if(this.props.dataName == "classes") {
-      this.props.changeClass(this.props.charId, this.state.data.name)
+      this.props.changeClass(this.props.charId, this.state.data)
       this.setModalVisible(!modalVisible);
     }
     if(this.props.dataName == "races") {
-      this.props.changeRace(this.props.charId, this.state.data.name)
+      this.props.changeRace(this.props.charId, this.state.data)
       this.setModalVisible(!modalVisible);
     }
   }

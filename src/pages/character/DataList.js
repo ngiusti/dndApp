@@ -35,24 +35,24 @@ class dataComponent extends Component {
             <Loader/>
         )
 
-    if(this.state.ready) {
-        data = this.state.data.map((data, index) => 
-            <View key={index} style={styles.character}>
-                <Text style={styles.name}>{data.name}</Text>
-                <ModalComponent dataName={ this.state.dataType } charId={this.props.route.params.itemId} dataUrl={data.url}/>
-            </View>
-        )
-    }
+        if(this.state.ready) {
+            data = this.state.data.map((data, index) => 
+                <View key={index} style={styles.character}>
+                    <Text style={styles.name}>{data.name}</Text>
+                    <ModalComponent dataName={ this.state.dataType } charId={this.props.route.params.itemId} dataUrl={data.url}/>
+                </View>
+            )
+        }
 
-    return (
-        <View style={{flex: 1, justifyContent: 'center' }}>
-            <ScrollView style={styles.scrollView}>
-                {data}
-            </ScrollView>
-            <CharacterFrame/>
-        </View>
-    );
-  }
+        return (
+            <View style={{flex: 1, justifyContent: 'center' }}>
+                <ScrollView style={styles.scrollView}>
+                    {data}
+                </ScrollView>
+                <CharacterFrame charId={this.props.route.params.itemId}/>
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -74,9 +74,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-      name: state.character.name,
-      class: state.character.class,
-      race: state.character.race,
+        characters: state.characters,
     }
 }
 
